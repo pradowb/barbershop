@@ -48,7 +48,7 @@ export function Parallax({
 
   return (
     <div ref={ref} className={className}>
-      <motion.div style={reduce ? undefined : { y }}>{children}</motion.div>
+      <motion.div {...(reduce ? {} : { style: { y } })}>{children}</motion.div>
     </div>
   );
 }
