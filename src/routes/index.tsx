@@ -40,6 +40,8 @@ function Index() {
       <Plans />
       <Booking />
       <SiteFooter />
+      <WhatsAppButton />
+
     </main>
   );
 }
