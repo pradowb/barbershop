@@ -5,6 +5,8 @@ import { Services } from "@/components/site/Services";
 import { Studio } from "@/components/site/Studio";
 import { Plans } from "@/components/site/Plans";
 import { Booking, SiteFooter } from "@/components/site/Booking";
+import { WhatsAppButton } from "@/components/site/WhatsAppButton";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
