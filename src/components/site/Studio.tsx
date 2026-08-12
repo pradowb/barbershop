@@ -4,9 +4,13 @@ import cut2 from "@/assets/cut-2.jpg";
 import cut3 from "@/assets/cut-3.jpg";
 
 const shots = [
-  { src: cut1, alt: "Cliente com fade moderno e barba alinhada", caption: "Fade técnico" },
+  {
+    src: cut1,
+    alt: "Nuca com degradê milimétrico e contorno definido",
+    caption: "Fade técnico",
+  },
   { src: cut2, alt: "Barbeiro a alinhar barba com navalha", caption: "Barba à navalha" },
-  { src: cut3, alt: "Ferramentas de barbeiro em superfície escura", caption: "Ferramenta afiada" },
+  { src: cut3, alt: "Detalhe de barba alinhada junto ao maxilar", caption: "Linha de barba" },
 ];
 
 export function Studio() {
