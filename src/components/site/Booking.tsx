@@ -33,7 +33,7 @@ type Taken = { starts_at: string; duration_minutes: number };
 
 export function Booking() {
   const days = useMemo(() => nextDays(12), []);
-  const [service, setService] = useState(SERVICES[0]);
+  const [service, setService] = useState<(typeof SERVICES)[number]>(SERVICES[0]);
   const [day, setDay] = useState(days[0]!);
   const [slot, setSlot] = useState<Date | null>(null);
   const [taken, setTaken] = useState<Taken[]>([]);
