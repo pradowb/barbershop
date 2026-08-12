@@ -1,30 +1,30 @@
 import { Reveal } from "@/components/motion-primitives";
+import { whatsappLink } from "@/lib/contact";
 
 const plans = [
   {
     name: "Avulso",
-    price: "28€",
+    price: "18€",
     note: "por visita",
     items: ["Corte assinatura", "Bebida incluída", "Agenda online"],
     featured: false,
   },
   {
-    name: "Clube Navalha",
-    price: "69€",
+    name: "Clube Corte & Barba",
+    price: "45€",
     note: "por mês",
     items: [
-      "2 cortes + 1 barba",
+      "2 cortes + 1 barba por mês",
       "Prioridade na agenda",
-      "15% em produtos",
       "Acabamento livre entre visitas",
     ],
     featured: true,
   },
   {
-    name: "Executivo",
-    price: "129€",
+    name: "Ilimitado",
+    price: "69€",
     note: "por mês",
-    items: ["Visitas ilimitadas", "Barbeiro dedicado", "Horário fora de expediente"],
+    items: ["Cortes e barbas ilimitados", "Barbeiro dedicado", "Horário fora de expediente"],
     featured: false,
   },
 ];
@@ -36,8 +36,11 @@ export function Plans() {
       <Reveal className="max-w-xl">
         <p className="text-xs uppercase tracking-[0.24em] text-primary">Planos</p>
         <h2 className="mt-4 text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1]">
-          Assine o hábito, não a pressa.
+          Só cortes e barbas. Nada mais.
         </h2>
+        <p className="mt-5 text-muted-foreground">
+          Sem produtos, sem extras. Escolhe a frequência com que queres estar bem tratado.
+        </p>
       </Reveal>
 
       <div className="mt-14 grid gap-4 lg:grid-cols-3">
@@ -66,16 +69,28 @@ export function Plans() {
                   </li>
                 ))}
               </ul>
-              <a
-                href="#agendar"
-                className={`mt-8 rounded-full px-5 py-3 text-center text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 ${
-                  p.featured
-                    ? "bg-primary text-primary-foreground"
-                    : "border border-border text-foreground hover:border-primary/50"
-                }`}
-              >
-                Escolher {p.name}
-              </a>
+              <div className="mt-auto flex flex-col gap-2 pt-8">
+                <a
+                  href="#agendar"
+                  className={`rounded-full px-5 py-3 text-center text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 ${
+                    p.featured
+                      ? "bg-primary text-primary-foreground"
+                      : "border border-border text-foreground hover:border-primary/50"
+                  }`}
+                >
+                  Escolher {p.name}
+                </a>
+                <a
+                  href={whatsappLink(
+                    `Olá! Tenho interesse no plano ${p.name} (${p.price} ${p.note}).`,
+                  )}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="rounded-full px-5 py-2.5 text-center text-xs text-muted-foreground transition-colors hover:text-primary"
+                >
+                  Falar no WhatsApp
+                </a>
+              </div>
             </article>
           </Reveal>
         ))}

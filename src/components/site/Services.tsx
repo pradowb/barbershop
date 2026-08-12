@@ -3,29 +3,30 @@ import { Reveal } from "@/components/motion-primitives";
 const services = [
   {
     name: "Corte Assinatura",
-    price: "28€",
+    price: "18€",
     time: "45 min",
     desc: "Diagnóstico capilar, corte à tesoura e máquina, finalização com produto.",
   },
   {
     name: "Barba Ritual",
-    price: "22€",
-    time: "35 min",
+    price: "12€",
+    time: "30 min",
     desc: "Toalha quente, navalha, óleos essenciais e hidratação profunda.",
   },
   {
-    name: "Combo Completo",
-    price: "44€",
+    name: "Combo Corte + Barba",
+    price: "27€",
     time: "75 min",
     desc: "Corte assinatura + barba ritual, com lavagem e massagem craniana.",
   },
   {
     name: "Fade Técnico",
-    price: "32€",
+    price: "20€",
     time: "50 min",
     desc: "Degradê milimétrico, contornos definidos à navalha e acabamento matte.",
   },
 ];
+
 
 const stats = [
   { value: "12k+", label: "cortes entregues" },
