@@ -14,13 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          duration_minutes: number
+          id: string
+          service: string
+          starts_at: string
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          duration_minutes?: number
+          id?: string
+          service: string
+          starts_at: string
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          duration_minutes?: number
+          id?: string
+          service?: string
+          starts_at?: string
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_taken_slots: {
+        Args: { day: string }
+        Returns: {
+          duration_minutes: number
+          starts_at: string
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
