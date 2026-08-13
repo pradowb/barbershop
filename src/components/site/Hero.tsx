@@ -6,7 +6,8 @@ import { NeonSign } from "@/components/site/NeonSign";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const words = ["Corte", "de", "precisão", "cirúrgica."];
+const words = ["Barbearia", "Social", "Fade"];
+const HIGHLIGHT_INDEX = 2;
 
 function RazorIcon({ className = "" }: { className?: string }) {
   return (
