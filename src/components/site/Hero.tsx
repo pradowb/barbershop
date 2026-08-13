@@ -89,7 +89,7 @@ export function Hero() {
 
         <h1 className="max-w-3xl text-[clamp(2.75rem,9vw,7rem)] font-bold leading-[0.92]">
           {words.map((w, i) =>
-            i === 2 ? (
+            i === HIGHLIGHT_INDEX ? (
               <span key={w + i} className="relative mr-[0.25em] inline-block">
                 <motion.span
                   initial={reduce ? { opacity: 0 } : { clipPath: "inset(0 100% 0 0)" }}
