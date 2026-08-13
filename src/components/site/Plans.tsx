@@ -1,4 +1,6 @@
+import { motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/motion-primitives";
+import { FloatingDecor } from "@/components/site/FloatingDecor";
 import { whatsappLink } from "@/lib/contact";
 
 const plans = [
@@ -30,16 +32,21 @@ const plans = [
 ];
 
 export function Plans() {
+  const reduce = useReducedMotion();
+  const tap = reduce ? {} : { whileTap: { scale: 0.94 }, whileHover: { scale: 1.02 } };
+
   return (
     <section id="planos" className="relative mx-auto max-w-6xl px-6 py-28 sm:py-36">
       <div className="hairline-x absolute inset-x-6 top-0" />
+      <FloatingDecor preset="plans" />
       <Reveal className="max-w-xl">
         <p className="text-xs uppercase tracking-[0.24em] text-primary">Planos</p>
         <h2 className="mt-4 text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1]">
           Só cortes e barbas. Nada mais.
         </h2>
         <p className="mt-5 text-muted-foreground">
-          Sem produtos, sem extras. Escolhe a frequência com que queres estar bem tratado.
+          Sem produtos, sem extras, sem pacotes com nomes estranhos. Escolhe só a frequência com
+          que queres andar bem tratado.
         </p>
       </Reveal>
 
@@ -48,7 +55,7 @@ export function Plans() {
           <Reveal key={p.name} delay={i * 0.08}>
             <article
               className={`soft-card relative flex h-full flex-col p-8 ${
-                p.featured ? "shadow-[var(--shadow-glow)]" : ""
+                p.featured ? `shadow-[var(--shadow-glow)] ${reduce ? "" : "animated-border"}` : ""
               }`}
             >
               {p.featured && (
@@ -70,16 +77,18 @@ export function Plans() {
                 ))}
               </ul>
               <div className="mt-auto flex flex-col gap-2 pt-8">
-                <a
+                <motion.a
+                  {...tap}
+                  transition={{ type: "spring", stiffness: 600, damping: 18 }}
                   href="#agendar"
-                  className={`rounded-full px-5 py-3 text-center text-sm font-medium transition-all duration-300 hover:scale-[1.02] active:scale-95 ${
+                  className={`rounded-full px-5 py-3 text-center text-sm font-medium ${
                     p.featured
                       ? "bg-primary text-primary-foreground"
                       : "border border-border text-foreground hover:border-primary/50"
                   }`}
                 >
                   Escolher {p.name}
-                </a>
+                </motion.a>
                 <a
                   href={whatsappLink(
                     `Olá! Tenho interesse no plano ${p.name} (${p.price} ${p.note}).`,
