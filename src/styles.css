@@ -158,6 +158,124 @@
   text-shadow: 0 0 40px color-mix(in oklab, var(--primary) 45%, transparent);
 }
 
+@keyframes neon-flicker {
+  0%,
+  16%,
+  19%,
+  21%,
+  23%,
+  25%,
+  54%,
+  56%,
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 12px color-mix(in oklab, var(--primary) 70%, transparent))
+      drop-shadow(0 0 38px color-mix(in oklab, var(--primary) 45%, transparent));
+  }
+  18%,
+  20%,
+  22%,
+  55% {
+    opacity: 0.42;
+    filter: drop-shadow(0 0 4px color-mix(in oklab, var(--primary) 30%, transparent));
+  }
+  24% {
+    opacity: 0.72;
+    filter: drop-shadow(0 0 8px color-mix(in oklab, var(--primary) 45%, transparent));
+  }
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 65%, transparent);
+    transform: scale(1);
+  }
+  70% {
+    box-shadow: 0 0 0 7px color-mix(in oklab, var(--primary) 0%, transparent);
+    transform: scale(1.15);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--primary) 0%, transparent);
+    transform: scale(1);
+  }
+}
+
+@keyframes cooling {
+  0%,
+  100% {
+    opacity: 0.32;
+  }
+  50% {
+    opacity: 0.14;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes float-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0) rotate(4deg);
+  }
+}
+
+@utility neon-flicker {
+  animation: neon-flicker 7s steps(1, end) infinite;
+}
+
+@utility live-dot {
+  animation: live-pulse 2.4s var(--ease-soft) infinite;
+}
+
+@utility cooling-slot {
+  animation: cooling 3.2s ease-in-out infinite;
+}
+
+@utility float-drift {
+  animation: float-drift 18s ease-in-out infinite;
+  will-change: transform;
+}
+
+@utility cursor-razor {
+  cursor:
+    url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Cpath d='M4 22 L20 6 l4 4 L8 26 z' fill='%23dc2626' stroke='white' stroke-width='1.5'/%3E%3Cpath d='M22 4 l6 6 -3 3 -6-6z' fill='white'/%3E%3C/svg%3E")
+      4 28,
+    crosshair;
+}
+
+@utility animated-border {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      color-mix(in oklab, var(--primary) 85%, transparent) 60deg,
+      transparent 140deg,
+      transparent 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: spin-slow 6s linear infinite;
+    pointer-events: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

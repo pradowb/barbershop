@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Reveal } from "@/components/motion-primitives";
+import { FloatingDecor } from "@/components/site/FloatingDecor";
 import { supabase } from "@/integrations/supabase/client";
 import { SERVICES, whatsappLink } from "@/lib/contact";
 
@@ -33,6 +35,7 @@ type Taken = { starts_at: string; duration_minutes: number };
 
 export function Booking() {
   const days = useMemo(() => nextDays(12), []);
+  const reduce = useReducedMotion();
   const [service, setService] = useState<(typeof SERVICES)[number]>(SERVICES[0]);
   const [day, setDay] = useState(days[0]!);
   const [slot, setSlot] = useState<Date | null>(null);
@@ -41,6 +44,7 @@ export function Booking() {
   const [phone, setPhone] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
+  const [wipe, setWipe] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -93,8 +97,15 @@ export function Booking() {
       );
       return;
     }
+
+    if (!reduce) {
+      setWipe(true);
+      await new Promise((r) => setTimeout(r, 620));
+      setWipe(false);
+    }
+
     setStatus("done");
-    setMessage("Marcação registada! Confirma no WhatsApp para garantires o horário.");
+    setMessage("Marcação registada. Confirma no WhatsApp e a cadeira é tua.");
     setTaken((prev) => [
       ...prev,
       { starts_at: slot.toISOString(), duration_minutes: service.duration },
@@ -109,16 +120,37 @@ export function Booking() {
 
   return (
     <section id="agendar" className="relative mx-auto max-w-6xl px-6 pb-28 sm:pb-36">
+      <FloatingDecor preset="booking" />
       <Reveal>
         <div className="glass-panel elevated relative overflow-hidden rounded-3xl px-6 py-14 sm:px-12 sm:py-20">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-32 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-primary/20 blur-3xl"
           />
+
+          <AnimatePresence>
+            {wipe && (
+              <motion.div
+                aria-hidden
+                initial={{ clipPath: "inset(0 100% 0 0)" }}
+                animate={{ clipPath: "inset(0 0% 0 0)" }}
+                exit={{ clipPath: "inset(0 0 0 100%)" }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0 z-30 flex items-center justify-center bg-primary"
+              >
+                <span className="font-display text-2xl font-bold text-primary-foreground">
+                  Corte marcado.
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="relative text-center">
             <p className="text-xs uppercase tracking-[0.24em] text-primary">Agendar</p>
             <h2 className="mt-4 text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1]">
               A cadeira está livre.
+              <br />
+              A tua desculpa, não.
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
               Escolhe serviço, dia e hora. Confirmamos por WhatsApp em minutos.
@@ -130,18 +162,19 @@ export function Booking() {
               <h3 className="text-sm font-medium">1. Serviço</h3>
               <div className="mt-4 flex flex-wrap gap-2">
                 {SERVICES.map((s) => (
-                  <button
+                  <motion.button
                     key={s.name}
                     type="button"
                     onClick={() => setService(s)}
-                    className={`rounded-full border px-4 py-2 text-sm transition-all duration-300 ${
+                    {...(reduce ? {} : { whileTap: { scale: 0.94 } })}
+                    className={`rounded-full border px-4 py-2 text-sm transition-colors duration-300 ${
                       service.name === s.name
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground hover:border-primary/50"
                     }`}
                   >
                     {s.name} · {s.price}€
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -149,23 +182,34 @@ export function Booking() {
             <div>
               <h3 className="text-sm font-medium">2. Dia</h3>
               <div className="mt-4 flex gap-2 overflow-x-auto pb-2">
-                {days.map((d) => (
-                  <button
-                    key={d.toISOString()}
-                    type="button"
-                    onClick={() => setDay(d)}
-                    className={`shrink-0 rounded-2xl border px-4 py-3 text-center transition-all duration-300 ${
-                      toDayKey(d) === toDayKey(day)
-                        ? "border-primary bg-secondary"
-                        : "border-border hover:border-primary/50"
-                    }`}
-                  >
-                    <span className="block text-[11px] uppercase tracking-widest text-muted-foreground">
-                      {WEEK_DAYS[d.getDay()]}
-                    </span>
-                    <span className="font-display text-lg font-bold">{d.getDate()}</span>
-                  </button>
-                ))}
+                {days.map((d) => {
+                  const active = toDayKey(d) === toDayKey(day);
+                  return (
+                    <motion.button
+                      key={d.toISOString()}
+                      type="button"
+                      layout={!reduce}
+                      onClick={() => setDay(d)}
+                      {...(reduce
+                        ? {}
+                        : {
+                            animate: { scale: active ? 1.06 : 1, y: active ? -4 : 0 },
+                            whileTap: { scale: 0.94 },
+                          })}
+                      transition={{ type: "spring", stiffness: 380, damping: 26 }}
+                      className={`shrink-0 rounded-2xl border px-4 py-3 text-center transition-colors duration-300 ${
+                        active
+                          ? "border-primary bg-secondary"
+                          : "border-border hover:border-primary/50"
+                      }`}
+                    >
+                      <span className="block text-[11px] uppercase tracking-widest text-muted-foreground">
+                        {WEEK_DAYS[d.getDay()]}
+                      </span>
+                      <span className="font-display text-lg font-bold">{d.getDate()}</span>
+                    </motion.button>
+                  );
+                })}
               </div>
             </div>
 
@@ -173,21 +217,24 @@ export function Booking() {
               <h3 className="text-sm font-medium">3. Hora</h3>
               <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
                 {slots.map((s) => (
-                  <button
+                  <motion.button
                     key={s.date.toISOString()}
                     type="button"
                     disabled={!s.free}
                     onClick={() => setSlot(s.date)}
-                    className={`rounded-xl border px-2 py-2.5 text-sm transition-all duration-300 ${
+                    {...(reduce || !s.free ? {} : { whileTap: { scale: 0.93 } })}
+                    className={`rounded-xl border px-2 py-2.5 text-sm transition-colors duration-300 ${
                       slot && slot.getTime() === s.date.getTime()
                         ? "border-primary bg-primary text-primary-foreground"
                         : s.free
                           ? "border-border hover:border-primary/50"
-                          : "cursor-not-allowed border-border/40 text-muted-foreground/40 line-through"
+                          : `cursor-not-allowed border-border/40 text-muted-foreground line-through ${
+                              reduce ? "opacity-30" : "cooling-slot"
+                            }`
                     }`}
                   >
                     {s.date.toLocaleTimeString("pt-PT", { hour: "2-digit", minute: "2-digit" })}
-                  </button>
+                  </motion.button>
                 ))}
               </div>
             </div>
@@ -215,13 +262,15 @@ export function Booking() {
             </div>
 
             <div className="flex flex-col items-center gap-3">
-              <button
+              <motion.button
                 type="submit"
                 disabled={!slot || status === "sending"}
-                className="rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-all duration-300 hover:scale-[1.03] hover:shadow-[var(--shadow-glow)] active:scale-95 disabled:opacity-40 disabled:hover:scale-100"
+                {...(reduce ? {} : { whileTap: { scale: 0.94 }, whileHover: { scale: 1.03 } })}
+                transition={{ type: "spring", stiffness: 600, damping: 18 }}
+                className="rounded-full bg-primary px-8 py-3.5 text-sm font-medium text-primary-foreground transition-shadow duration-300 hover:shadow-[var(--shadow-glow)] disabled:opacity-40"
               >
-                {status === "sending" ? "A reservar…" : "Reservar e confirmar no WhatsApp"}
-              </button>
+                {status === "sending" ? "A afiar a navalha…" : "Reservar e confirmar no WhatsApp"}
+              </motion.button>
               {message && (
                 <p
                   className={`text-sm ${status === "error" ? "text-primary" : "text-muted-foreground"}`}
