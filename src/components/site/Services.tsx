@@ -77,7 +77,7 @@ function TiltCard({ service }: { service: (typeof services)[number] }) {
       onMouseMove={onMove}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={reset}
-      style={reduce ? undefined : { rotateX: rx, rotateY: ry, transformPerspective: 900 }}
+      {...(reduce ? {} : { style: { rotateX: rx, rotateY: ry, transformPerspective: 900 } })}
       className={`soft-card group relative h-full p-7 ${hover ? "shadow-[var(--shadow-glow)]" : ""}`}
     >
       <div className="flex items-start justify-between gap-6">
