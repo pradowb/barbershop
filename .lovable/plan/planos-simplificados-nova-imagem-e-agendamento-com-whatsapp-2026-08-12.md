@@ -39,6 +39,7 @@ Barbearia responde no WhatsApp e confirma
 ```
 
 Detalhes:
+
 - Horário base: Ter–Sáb, 10h–20h; duração por serviço define os slots.
 - Slots já reservados aparecem indisponíveis (evita choques).
 - Nada de dados sensíveis expostos: o público só consegue ver quais horários estão ocupados, nunca nomes ou telefones de outros clientes.

@@ -49,11 +49,9 @@ export function Booking() {
   useEffect(() => {
     let active = true;
     setSlot(null);
-    supabase
-      .rpc("get_taken_slots", { day: toDayKey(day) })
-      .then(({ data }) => {
-        if (active) setTaken((data as Taken[] | null) ?? []);
-      });
+    supabase.rpc("get_taken_slots", { day: toDayKey(day) }).then(({ data }) => {
+      if (active) setTaken((data as Taken[] | null) ?? []);
+    });
     return () => {
       active = false;
     };
@@ -149,8 +147,7 @@ export function Booking() {
             <p className="text-xs uppercase tracking-[0.24em] text-primary">Agendar</p>
             <h2 className="mt-4 text-[clamp(2rem,6vw,3.5rem)] font-bold leading-[1]">
               A cadeira está livre.
-              <br />
-              A tua desculpa, não.
+              <br />A tua desculpa, não.
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-muted-foreground">
               Escolhe serviço, dia e hora. Confirmamos por WhatsApp em minutos.

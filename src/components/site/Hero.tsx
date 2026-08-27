@@ -1,12 +1,11 @@
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import heroImage from "@/assets/hero.jpg";
-import { HERO_VIDEO_URL } from "@/lib/media";
 import { NeonSign } from "@/components/site/NeonSign";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const words = ["Barbearia", "Social", "Fade"];
+const words = ["Barbearia", "Social", "Club"];
 const HIGHLIGHT_INDEX = 2;
 
 function RazorIcon({ className = "" }: { className?: string }) {
@@ -41,33 +40,16 @@ export function Hero() {
       ref={ref}
       className="relative isolate min-h-[100svh] overflow-hidden cursor-razor"
     >
-      <motion.div
-        className="absolute inset-0 -z-20"
-        {...(reduce ? {} : { style: { y: imageY } })}
-      >
-        {reduce ? (
-          <img
-            src={heroImage}
-            alt="Interior de barbearia premium com iluminação vermelha"
-            width={1600}
-            height={1200}
-            fetchPriority="high"
-            decoding="async"
-            className="size-full scale-105 object-cover"
-          />
-        ) : (
-          <video
-            src={HERO_VIDEO_URL}
-            poster={heroImage}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="metadata"
-            aria-hidden
-            className="size-full scale-105 object-cover"
-          />
-        )}
+      <motion.div className="absolute inset-0 -z-20" {...(reduce ? {} : { style: { y: imageY } })}>
+        <img
+          src={heroImage}
+          alt="Interior de barbearia premium com iluminação vermelha"
+          width={1600}
+          height={1200}
+          fetchPriority="high"
+          decoding="async"
+          className="size-full scale-105 object-cover"
+        />
       </motion.div>
       <div className="hero-veil absolute inset-0 -z-10" />
 

@@ -15,11 +15,7 @@ const plans = [
     name: "Clube Corte & Barba",
     price: "45€",
     note: "por mês",
-    items: [
-      "2 cortes + 1 barba por mês",
-      "Prioridade na agenda",
-      "Acabamento livre entre visitas",
-    ],
+    items: ["2 cortes + 1 barba por mês", "Prioridade na agenda", "Acabamento livre entre visitas"],
     featured: true,
   },
   {
@@ -45,8 +41,8 @@ export function Plans() {
           Só cortes e barbas. Nada mais.
         </h2>
         <p className="mt-5 text-muted-foreground">
-          Sem produtos, sem extras, sem pacotes com nomes estranhos. Escolhe só a frequência com
-          que queres andar bem tratado.
+          Sem produtos, sem extras, sem pacotes com nomes estranhos. Escolhe só a frequência com que
+          queres andar bem tratado.
         </p>
       </Reveal>
 

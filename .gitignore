@@ -20,6 +20,15 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Environment variables (contains Supabase keys — never commit)
+.env
+.env.*
+!.env.example
+
+# This project uses bun (bun.lock is the source of truth) — ignore the
+# npm lockfile so it doesn't drift out of sync or get committed by accident.
+package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

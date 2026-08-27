@@ -66,7 +66,8 @@
   --input: oklch(1 0 0 / 14%);
   --ring: oklch(0.578 0.222 25.5);
 
-  --gradient-hero: radial-gradient(
+  --gradient-hero:
+    radial-gradient(
       120% 90% at 50% 0%,
       color-mix(in oklab, var(--primary) 18%, transparent) 0%,
       transparent 60%
@@ -79,7 +80,8 @@
     transparent
   );
   --shadow-elevated: 0 24px 60px -24px oklch(0 0 0 / 0.8);
-  --shadow-glow: 0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent),
+  --shadow-glow:
+    0 0 0 1px color-mix(in oklab, var(--primary) 30%, transparent),
     0 18px 50px -18px color-mix(in oklab, var(--primary) 45%, transparent);
   --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
 }
